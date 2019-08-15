@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { render } from "react-dom";
-import { Formik } from "formik";
+import { Formik, ErrorMessage } from "formik";
 import yup from "yup";
 import RecaptchaArea from "./Recaptcha";
 import DropZone from "./Dropzone";
@@ -8,6 +8,9 @@ import DropZone from "./Dropzone";
 import "./styles.css";
 
 function App() {
+  const initialValues = { name: "" };
+  const [values, setValues] = useState(initialValues);
+  const [errors, setErrors] = useState(null);
   const handleSubmit = () => {};
   const handleChange = () => {};
 
@@ -42,7 +45,23 @@ function App() {
             .required(),
           recaptcha: yup.string().required()
         })}
-        render={{}}
+        render={({}) => (
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label for="name">Name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                className="form-control"
+                value={values.name}
+                onChange={handleChange}
+              />
+              {errors.name && touched.name && <p>{errors.name}</p>}
+            </div>
+            <div />
+          </form>
+        )}
       />
     </div>
   );
