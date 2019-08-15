@@ -6,6 +6,7 @@ import RecaptchaArea from "./Recaptcha";
 import DropZone from "./Dropzone";
 
 // import "./styles.css";
+import "bootstrap/dist/css/bootstrap.css";
 
 function App() {
   const initialValues = {
