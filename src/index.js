@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { render } from "react-dom";
-import { Formik, ErrorMessage } from "formik";
+import { Formik } from "formik";
 import yup from "yup";
 import RecaptchaArea from "./Recaptcha";
 import DropZone from "./Dropzone";
 
-import "./styles.css";
+// import "./styles.css";
 
 function App() {
-  const initialValues = { name: "" };
+  const initialValues = {
+    name: "",
+    email: "",
+    photo: null,
+    attachments: [],
+    recaptcha: ""
+  };
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState(null);
   const handleSubmit = () => {};
@@ -17,13 +23,7 @@ function App() {
   return (
     <div className="Container">
       <Formik
-        initialValues={{
-          name: "",
-          email: "",
-          photo: null,
-          attachments: [],
-          recaptcha: ""
-        }}
+        initialValues={initialValues}
         onSubmit={async values => {
           const formData = new FormData();
           formData.append("name", values.name);
@@ -45,7 +45,7 @@ function App() {
             .required(),
           recaptcha: yup.string().required()
         })}
-        render={({}) => (
+        render={({ values, errors, touched, setFieldValue }) => (
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label for="name">Name</label>
@@ -59,7 +59,39 @@ function App() {
               />
               {errors.name && touched.name && <p>{errors.name}</p>}
             </div>
-            <div />
+            <div className="form-group">
+              <label>Photo</label>
+              <input
+                id="photo"
+                name="name"
+                type="file"
+                className="form-control"
+                onChange={event => {
+                  setFieldValue("photo", event.currentTarget.files[0]);
+                }}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Multiple files</label>
+              <DropZone setFieldValue={setFieldValue} values={values} />
+            </div>
+
+            <div className="form-group">
+              <label>Recaptcha Validation</label>
+              <RecaptchaArea
+                setFieldValue={setFieldValue}
+                errors={errors}
+                touched={touched}
+              />
+              {errors.recaptcha && touched.recaptcha && (
+                <p>{errors.recaptcha}</p>
+              )}
+            </div>
+
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
           </form>
         )}
       />

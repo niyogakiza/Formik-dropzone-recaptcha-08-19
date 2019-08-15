@@ -11,7 +11,7 @@
     "react-dropzone": "10.1.7",
     "react-recaptcha": "2.3.10",
     "react-scripts": "3.0.1",
-    "yup": "0.27.0"
+    "yup": "0.23.0"
   },
   "devDependencies": {
     "typescript": "3.3.3"
